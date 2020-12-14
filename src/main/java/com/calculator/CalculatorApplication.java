@@ -3,6 +3,9 @@ package com.calculator;
 import com.calculator.exception.InvalidExpressionExceptionMapper;
 import com.calculator.healthcheck.CalculatorHealthCheck;
 import com.calculator.resources.CalculationsResource;
+import com.calculator.service.CalculatorFactory;
+import com.calculator.service.CalculatorService;
+import com.calculator.service.ExpressionParser;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -57,13 +60,12 @@ public class CalculatorApplication extends Application<CalculatorConfiguration> 
                 .prettyPrint(true)
                 .resourcePackages(Stream.of("com.calculator.resources").collect(Collectors.toSet()));
 
-
-        env.jersey().register(new CalculationsResource());
+        CalculatorService calculatorService = new CalculatorService(new ExpressionParser(), new CalculatorFactory());
+        env.jersey().register(new CalculationsResource(calculatorService));
 
         env.jersey().register(new OpenApiResource().openApiConfiguration(oasConfig));
 
-
-        env.jersey().register(new InvalidExpressionExceptionMapper(env.metrics()));
+        env.jersey().register(new InvalidExpressionExceptionMapper());
 
         env.healthChecks().register("template",
                 new CalculatorHealthCheck());

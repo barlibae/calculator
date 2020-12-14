@@ -2,34 +2,25 @@ package com.calculator.model;
 
 import java.util.Objects;
 
-/**
- * Just a wrapper over the result of the calculation.
- */
-public class Result {
+public class SimpleOperand implements Operand {
 
-    private Integer value;
+    private final Integer value;
 
-    public Result() {
-    }
-
-    public Result(Integer value) {
+    public SimpleOperand(Integer value) {
         this.value = value;
     }
 
+    @Override
     public Integer getValue() {
         return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Result result = (Result) o;
-        return Objects.equals(value, result.value);
+        SimpleOperand that = (SimpleOperand) o;
+        return value.equals(that.value);
     }
 
     @Override

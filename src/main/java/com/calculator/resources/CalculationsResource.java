@@ -1,6 +1,7 @@
 package com.calculator.resources;
 
 import com.calculator.model.Result;
+import com.calculator.service.*;
 import com.codahale.metrics.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,6 +21,11 @@ import javax.ws.rs.core.Response;
 public class CalculationsResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CalculationsResource.class);
+    private final CalculatorService calculatorService;
+
+    public CalculationsResource(CalculatorService calculatorService) {
+        this.calculatorService = calculatorService;
+    }
 
     @GET
     @Operation(
@@ -30,10 +36,16 @@ public class CalculationsResource {
                                     schema = @Schema(implementation = Result.class))),
                     @ApiResponse(responseCode = "400", description = "The expression is invalid")})
     @Timed
-    public Response evaluate(@NotBlank @QueryParam("expression") String expression) {
+    public Response calculate(@NotBlank @QueryParam("expression") String expression) {
+
+        LOGGER.info("Calculating {}", expression);
+
+        Integer result = calculatorService.calculate(expression);
+
+        LOGGER.info("Successfully calculated {} with result {}", expression, result);
 
         return Response.ok()
-                .entity(1.0)
+                .entity(new Result(result))
                 .build();
     }
 }
