@@ -20,7 +20,6 @@ public enum Parenthesis implements Symbol {
                 return p;
             }
         }
-
         throw new IllegalArgumentException("No enum constant for " + sign);
     }
 
@@ -29,7 +28,6 @@ public enum Parenthesis implements Symbol {
     }
 
     public static boolean isParentheses(char c) {
-
         return Arrays.stream(values()).anyMatch(p -> p.sign == c);
     }
 

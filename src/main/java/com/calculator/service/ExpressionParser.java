@@ -11,6 +11,7 @@ import static com.calculator.model.Parenthesis.isParentheses;
 
 /**
  * Parses a numerical expression into a list of {@link Symbol}
+ * It can be extended to also validate the expression upfront.
  */
 public class ExpressionParser {
 

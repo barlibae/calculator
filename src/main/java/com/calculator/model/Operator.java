@@ -2,6 +2,9 @@ package com.calculator.model;
 
 import java.util.Arrays;
 
+/**
+ * A binary arithmetic operator, see the {@link Operator#apply(Operand, Operand)} method
+ */
 public enum Operator implements Symbol {
 
     PLUS('+'),
@@ -41,7 +44,6 @@ public enum Operator implements Symbol {
                 return o;
             }
         }
-
         throw new IllegalArgumentException("No enum constant for " + sign);
     }
 
@@ -50,7 +52,6 @@ public enum Operator implements Symbol {
     }
 
     public static boolean isOperator(char sign) {
-
         return Arrays.stream(values()).anyMatch(o -> o.sign == sign);
     }
 
